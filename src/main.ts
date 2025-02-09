@@ -6,18 +6,20 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
 
   try {
-    const app = await NestFactory.create(AppModule, {
-      logger: ['error', 'warn', 'log', 'debug', 'verbose'],
-    });
+    const app = await NestFactory.create(AppModule);
 
-    // Enable CORS
+    // Log before enabling CORS
+    logger.log('Configuring CORS...');
+
     app.enableCors({
-      origin: true, 
+      origin: '*',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-      allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+      allowedHeaders: ['Content-Type', 'Accept'],
       preflightContinue: false,
       optionsSuccessStatus: 204,
     });
+
+    logger.log('CORS configured successfully');
 
     const port = process.env.PORT || 4600;
     await app.listen(port);
