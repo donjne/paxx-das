@@ -12,17 +12,13 @@ async function bootstrap() {
 
     // Enable CORS
     app.enableCors({
-      origin: [
-        'http://localhost:3000',
-        'https://app.usepaxx.xyz',
-        'https://usepaxx.xyz',
-      ],
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-      credentials: false,
+      origin: true, 
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+      preflightContinue: false,
+      optionsSuccessStatus: 204,
     });
 
-    // Start the application
     const port = process.env.PORT || 4600;
     await app.listen(port);
     logger.log(`Application is running on: ${await app.getUrl()}`);
